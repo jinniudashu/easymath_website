@@ -1,44 +1,33 @@
 ---
 export const prerender = true;
 
-import { getCollection, getEntryBySlug } from "astro:content";
-
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 
-const courses = await getCollection("course");
-
-const course1 = await getEntryBySlug("course", "course-1");
+const url = "https://web-production-2275.up.railway.app/courses/";
+const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
+const response = await fetch(url);
+const courses = await response.json();
+console.log(courses);
 
 // const cookie = Astro.request.headers.get('cookie');
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Welcome to Easymath.">
 	<main>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
+		<ul role="list" class="link-card-grid">			
+			{
+				courses.map((course: any) => (
+					<Card
+						href={`/course/${course.slug}/`}
+						title={course.title}
+						body={course.description}
+						img={imgUrlPrefix + course.thumbnail}
+					/>
+				))
+			}
 		</ul>
 	</main>
-	{
-		courses.map((course) => (
-			<div>
-				<a href={`/course/${course.slug}/`}>
-					<h2>Title: {course.data.title}</h2>
-					<p>Description: {course.data.description}</p>
-				</a>
-				<img src={course.data.thumbnail} />
-			</div>
-		))
-	}
 </Layout>
 
 <style>
@@ -80,7 +69,7 @@ const course1 = await getEntryBySlug("course", "course-1");
 	}
 	.link-card-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(36ch, 1fr));
 		gap: 1rem;
 		padding: 0;
 	}

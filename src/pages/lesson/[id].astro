@@ -1,0 +1,47 @@
+---
+export const prerender = true;
+
+import Card from '../../components/Card.astro';
+
+const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
+
+export async function getStaticPaths() {
+    const url = "https://web-production-2275.up.railway.app/courses/lessons/";
+    const response = await fetch(url);
+    const lessons = await response.json();
+
+    return lessons.map((lesson: any) => ({
+        params: { id: lesson.id },
+        props: { lesson },
+    }));
+}
+
+interface Props {
+    lesson: any;
+}
+const { lesson } = Astro.props;
+
+const url = `https://web-production-2275.up.railway.app/courses/lessons/${lesson.id}`;
+const response = await fetch(url);
+const video = await response.json();
+---
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    <a href='/'>Back Home</a>
+    <div>
+        {lesson.title}
+    </div>
+    <div>
+        <video controls>
+            <source src={imgUrlPrefix + lesson.video} type="video/mp4">
+        </video>
+    </div>
+    <div>
+        { lesson.description }
+    </div>
+    <div>
+        练习题
+    </div>
+</body>
