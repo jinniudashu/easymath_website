@@ -1,6 +1,16 @@
 ---
+export const prerender = true;
+
+import { getCollection, getEntryBySlug } from "astro:content";
+
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+
+const courses = await getCollection("course");
+
+const course1 = await getEntryBySlug("course", "course-1");
+
+// const cookie = Astro.request.headers.get('cookie');
 ---
 
 <Layout title="Welcome to Astro.">
@@ -21,18 +31,19 @@ import Card from '../components/Card.astro';
 				title="Integrations"
 				body="Supercharge your project with new frameworks and libraries."
 			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
 		</ul>
 	</main>
+	{
+		courses.map((course) => (
+			<div>
+				<a href={`/course/${course.slug}/`}>
+					<h2>Title: {course.data.title}</h2>
+					<p>Description: {course.data.description}</p>
+				</a>
+				<img src={course.data.thumbnail} />
+			</div>
+		))
+	}
 </Layout>
 
 <style>

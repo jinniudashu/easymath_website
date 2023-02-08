@@ -1,0 +1,30 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const courses = await getCollection("course");
+
+    return courses.map((course) => ({
+        params: {slug: course.slug },
+        props: { course },
+    }));
+}
+
+interface Props {
+    course: CollectionEntry<"course">;
+}
+const { course } = Astro.props;
+console.log("Course:", course);
+
+const { Content } = await course.render();
+console.log("~~Content:", Content);
+---
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    <a href='/'>Back Home</a>
+    <h1>{ course.data.title }</h1>
+    <Content />
+    <img src={ course.data.image.src } />
+</body>
