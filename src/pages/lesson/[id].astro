@@ -34,9 +34,23 @@ const video = await response.json();
         {lesson.title}
     </div>
     <div>
-        <video controls>
+        <video 
+            id="my-video" 
+            class="video-js vjs-big-play-centered" 
+            controls 
+            preload="auto" 
+            controlslist="nodownload"
+            width="640" 
+            height="480"
+            data-setup='{}'>
             <source src={imgUrlPrefix + lesson.video} type="video/mp4">
-        </video>
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                </a>
+            </p>
+        </video>    
     </div>
     <div>
         { lesson.description }
