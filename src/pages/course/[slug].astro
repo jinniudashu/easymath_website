@@ -1,7 +1,7 @@
 ---
 export const prerender = true;
 
-import Card from '../../components/Card.astro';
+import Unit from '../../components/Unit.astro';
 
 const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
 
@@ -21,9 +21,15 @@ interface Props {
 }
 const { course } = Astro.props;
 
-const url = `https://web-production-2275.up.railway.app/courses/${course.id}/lessons`;
-const response = await fetch(url);
-const lessons = await response.json();
+let url: string
+url = `https://web-production-2275.up.railway.app/courses/${course.id}/lessons`;
+let response = await fetch(url);
+const lessons: Array<any> = await response.json();
+
+url = `https://web-production-2275.up.railway.app/courses/${course.id}/units`;
+response = await fetch(url);
+const units: Array<any> = await response.json();
+
 ---
 <head>
     <meta charset="UTF-8" />
@@ -32,14 +38,13 @@ const lessons = await response.json();
     <a href='/'>Back Home</a>
     <div>
         {
-            lessons.map((lesson: any) => (
-                <Card
-                    href={`/lesson/${lesson.id}/`}
-                    title={lesson.title}
-                    body={lesson.description}
-                    img={imgUrlPrefix + lesson.thumbnail}
+            units.map((unit: any) => (
+                <Unit
+                    lessons = {lessons.filter((lesson: any) => lesson.unit === unit.id)}
+                    title={unit.title}
+                    position={unit.position}
                 />
             ))
         }
-</div>
+    </div>
 </body>

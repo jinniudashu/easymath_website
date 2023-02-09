@@ -1,0 +1,29 @@
+---
+import Card from './Card.astro';
+
+const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
+
+export interface Props {
+    lessons: Array<any>;
+    title: string;
+    position: number;
+}
+
+const { lessons, title, position } = Astro.props;
+---
+<body>
+    <div>{ position }. { title }</div>
+    {
+        lessons.map((lesson: any) => (
+            <div>
+                <Card
+                    href={`/lesson/${lesson.id}/`}
+                    title={lesson.title}
+                    body={lesson.description}
+                    img={imgUrlPrefix + lesson.thumbnail}
+                />
+            </div>
+        ))
+    }
+
+</body>
