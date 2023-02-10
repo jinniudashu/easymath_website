@@ -21,7 +21,8 @@ const courses = await response.json();
 						href={`/course/${course.slug}/`}
 						title={course.title}
 						body={course.description}
-						img={imgUrlPrefix + course.thumbnail}
+						// img={imgUrlPrefix + course.thumbnail}
+						img={'/images/' + course.thumbnail_name + '.png'}
 					/>
 				))
 			}

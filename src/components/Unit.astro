@@ -20,7 +20,7 @@ const { lessons, title, position } = Astro.props;
                     href={`/lesson/${lesson.id}/`}
                     title={lesson.title}
                     body={lesson.description}
-                    img={imgUrlPrefix + lesson.thumbnail}
+                    img={'/images/' + lesson.thumbnail_name + '.png'}
                 />
             </div>
         ))
