@@ -3,13 +3,9 @@ export const prerender = true;
 
 import Unit from '../../components/Unit.astro';
 
-const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
+import courses from '../../cms-data/courses.json';
 
 export async function getStaticPaths() {
-    const url = "https://web-production-2275.up.railway.app/courses/";
-    const response = await fetch(url);
-    const courses = await response.json();
-
     return courses.map((course: any) => ({
         params: { slug: course.slug },
         props: { course },
@@ -21,15 +17,7 @@ interface Props {
 }
 const { course } = Astro.props;
 
-let url: string
-url = `https://web-production-2275.up.railway.app/courses/${course.id}/lessons`;
-let response = await fetch(url);
-const lessons: Array<any> = await response.json();
-
-url = `https://web-production-2275.up.railway.app/courses/${course.id}/units`;
-response = await fetch(url);
-const units: Array<any> = await response.json();
-
+const units = course.units;
 ---
 <head>
     <meta charset="UTF-8" />
@@ -40,7 +28,7 @@ const units: Array<any> = await response.json();
         {
             units.map((unit: any) => (
                 <Unit
-                    lessons = {lessons.filter((lesson: any) => lesson.unit === unit.id)}
+                    lessons = {unit.lessons}
                     title={unit.title}
                     position={unit.position}
                 />

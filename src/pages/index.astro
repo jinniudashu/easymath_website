@@ -4,10 +4,12 @@ export const prerender = true;
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 
-const url = "https://web-production-2275.up.railway.app/courses/";
-const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
-const response = await fetch(url);
-const courses = await response.json();
+import courses from '../cms-data/courses.json';
+
+// const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
+// const url = "https://web-production-2275.up.railway.app/courses/";
+// const response = await fetch(url);
+// const courses = await response.json();
 
 // const cookie = Astro.request.headers.get('cookie');
 ---
@@ -21,7 +23,6 @@ const courses = await response.json();
 						href={`/course/${course.slug}/`}
 						title={course.title}
 						body={course.description}
-						// img={imgUrlPrefix + course.thumbnail}
 						img={'/images/' + course.thumbnail_name + '.png'}
 					/>
 				))
