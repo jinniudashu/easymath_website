@@ -3,8 +3,6 @@ export const prerender = true;
 
 import lessons from '../../cms-data/lessons.json';
 
-const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
-
 export async function getStaticPaths() {
     return lessons.map((lesson: any) => ({
         params: { id: lesson.id },
@@ -16,6 +14,8 @@ interface Props {
     lesson: any;
 }
 const { lesson } = Astro.props;
+
+const imgUrlPrefix = "https://res.cloudinary.com/dtysyyt3a/"
 ---
 
 <head>
